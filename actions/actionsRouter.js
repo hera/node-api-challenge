@@ -80,4 +80,29 @@ router.put("/:id", validateAction, (req, res) => {
 });
 
 
+// Remove an action from the db
+
+router.delete("/:id", (req, res) => {
+    actionDb.remove(req.params.id)
+    .then(count => {
+        if (count) {
+            res.status(200).json({
+                id: req.params.id,
+                message: "The action has been removed"
+            });
+        } else {
+            res.status(404).json({
+                error: "Not found. Could not remove the action"
+            });
+        }
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: "Server error. Could not remove the action.",
+            description: error
+        });
+    });
+});
+
+
 module.exports = router;
