@@ -1,5 +1,6 @@
 const express = require("express");
 const projectDb = require("../data/helpers/projectModel");
+const { validateProject } = require("./projectsMiddleware");
 
 const router = express.Router();
 
@@ -23,6 +24,26 @@ router.get("/:id", (req, res) => {
                 description: error
             });
         });
+});
+
+
+// Add a project
+
+router.post("/", validateProject, (req, res) => {
+    projectDb.insert({
+        name: req.body.name,
+        description: req.body.description,
+        completed: req.body.completed ? true : false
+    })
+    .then(project => {
+        res.status(201).json(project);
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: "Server error. Could not add the project.",
+            description: error
+        });
+    });
 });
 
 
