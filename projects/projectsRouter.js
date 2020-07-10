@@ -47,4 +47,29 @@ router.post("/", validateProject, (req, res) => {
 });
 
 
+// Update a project
+
+router.put("/:id", validateProject, (req, res) => {
+    projectDb.update(req.params.id, {
+        name: req.body.name,
+        description: req.body.description,
+        completed: req.body.completed ? true : false
+    })
+    .then(project => {
+        if (project === null) {
+            res.status(404).json({
+                error: `Project with ID ${req.params.id} doesn't exist`
+            });
+        }
+        res.status(200).json(project);
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: "Server error. Could not update the project.",
+            description: error
+        });
+    });
+});
+
+
 module.exports = router;
