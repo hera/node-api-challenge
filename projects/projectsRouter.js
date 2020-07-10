@@ -97,4 +97,20 @@ router.delete("/:id", (req, res) => {
 });
 
 
+// Get all actions by project_id
+
+router.get("/:id/actions", (req, res) => {
+    projectDb.getProjectActions(req.params.id)
+        .then(actions => {
+            res.status(200).json(actions);
+        })
+        .catch(error => {
+            res.status(500).json({
+                error: "Server error. Could not get actions.",
+                description: error
+            });
+        });
+});
+
+
 module.exports = router;
