@@ -1,0 +1,14 @@
+Mention two parts of Express that you learned about this week.
+Middleware and routers
+
+Describe Middleware?
+In Express it is a function that processes the request data and can pass data further to another middleware function.
+
+Describe a Resource?
+A resource is data that is handled by api, you can use api to manage it.
+
+What can the API return to help clients know if a request was successful?
+A status code, json body with data
+
+How can we partition our application into sub-applications?
+By using routers
