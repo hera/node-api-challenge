@@ -54,4 +54,30 @@ router.post("/", validateAction, (req, res) => {
 });
 
 
+// Update an action
+
+router.put("/:id", validateAction, (req, res) => {
+    actionDb.update(req.params.id, {
+        project_id: req.body.project_id,
+        description: req.body.description,
+        notes: req.body.notes,
+        completed: req.body.completed ? true : false
+    })
+    .then(action => {
+        if (action === null) {
+            res.status(404).json({
+                error: `Action with ID ${req.params.id} doesn't exist`
+            });
+        }
+        res.status(200).json(action);
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: "Server error. Could not update the action.",
+            description: error
+        });
+    });
+});
+
+
 module.exports = router;
