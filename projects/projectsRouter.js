@@ -72,4 +72,29 @@ router.put("/:id", validateProject, (req, res) => {
 });
 
 
+// Remove a project from the db
+
+router.delete("/:id", (req, res) => {
+    projectDb.remove(req.params.id)
+        .then(count => {
+            if (count) {
+                res.status(200).json({
+                    id: req.params.id,
+                    message: "The project has been removed"
+                });
+            } else {
+                res.status(404).json({
+                    error: "Could not remove the project"
+                });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({
+                error: "Server error. Could not remove the project.",
+                description: error
+            });
+        });
+});
+
+
 module.exports = router;
